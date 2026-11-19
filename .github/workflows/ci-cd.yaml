@@ -1,0 +1,29 @@
+name: CI-CD
+
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@7.0.1
+      - uses: docker/login@4.8.0
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Build Backend
+        run: docker build -t parzivalprime/sgs-2-go-backend:v1 ./backend
+      
+      - name: Build Frontend
+        run: docker build -t parzivalprime/sgs-2-next-frontend:v1 ./frontend
+      
+      - name: Push Backend
+        run: docker push parzivalprime/sgs-2-go-backend:v1
+      
+      - name: Push Frontend
+        run: docker push parzivalprime/sgs-2-next-frontend:v1
