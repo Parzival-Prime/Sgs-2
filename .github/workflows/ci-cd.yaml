@@ -63,7 +63,7 @@ jobs:
         run: terraform apply --auto-approve
   
   cleanup:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Sleep
         run: sleep 2m
