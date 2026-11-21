@@ -22,12 +22,12 @@ log_error() {
 }
 
 # Create resource group
-if az.cmd group exists --name "$RESOURCE_GROUP_NAME" | grep -q true; then
+if az group exists --name "$RESOURCE_GROUP_NAME" | grep -q true; then
     log_info "Resource Group already exists: $RESOURCE_GROUP_NAME"
 else
     log_info "Creating Resource Group: $RESOURCE_GROUP_NAME"
 
-    if az.cmd group create --name $RESOURCE_GROUP_NAME --location $LOCATION > /dev/null
+    if az group create --name $RESOURCE_GROUP_NAME --location $LOCATION > /dev/null
     then
         log_success "Resource Group Created: $RESOURCE_GROUP_NAME"
     else
@@ -38,13 +38,13 @@ fi
 
 
 # Create Storage Account
-if az.cmd storage account show --resource-group "$RESOURCE_GROUP_NAME" --name "$STORAGE_ACCOUNT_NAME" > /dev/null 2>&1
+if az storage account show --resource-group "$RESOURCE_GROUP_NAME" --name "$STORAGE_ACCOUNT_NAME" > /dev/null 2>&1
 then
     log_info "Storage account already exists: $STORAGE_ACCOUNT_NAME"
 else
     log_info "Creating Storage Account: $STORAGE_ACCOUNT_NAME"
 
-    if az.cmd storage account create --resource-group $RESOURCE_GROUP_NAME --name $STORAGE_ACCOUNT_NAME --sku Standard_LRS --encryption-services blob > /dev/null
+    if az storage account create --resource-group $RESOURCE_GROUP_NAME --name $STORAGE_ACCOUNT_NAME --sku Standard_LRS --encryption-services blob > /dev/null
     then
         log_success "Storage Account created: $STORAGE_ACCOUNT_NAME"
     else
@@ -56,7 +56,7 @@ fi
 # Fetch Storage Account Key
 log_info "Fetching Storage Account Key"
 
-ACCOUNT_KEY=$(az.cmd storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $STORAGE_ACCOUNT_NAME --query "[0].value" -o tsv)
+ACCOUNT_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $STORAGE_ACCOUNT_NAME --query "[0].value" -o tsv)
 
 if [ -n "$ACCOUNT_KEY" ]; then
     log_success "Storage Account Key fetched Succesfully!"
@@ -66,13 +66,13 @@ else
 fi
 
 # Create blob container
-if az.cmd storage container exists --name "$CONTAINER_NAME" --account-name "$STORAGE_ACCOUNT_NAME" --account-key "$ACCOUNT_KEY" --query exists -o tsv | grep -q true > /dev/null;
+if az storage container exists --name "$CONTAINER_NAME" --account-name "$STORAGE_ACCOUNT_NAME" --account-key "$ACCOUNT_KEY" --query exists -o tsv | grep -q true > /dev/null;
 then
     log_info "Container already exists: $CONTAINER_NAME"
 else
     log_info "Creating Blob Container: $CONTAINER_NAME"
 
-    if az.cmd storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME --account-key $ACCOUNT_KEY > /dev/null
+    if az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME --account-key $ACCOUNT_KEY > /dev/null
     then
         log_success "Blob Container created: $CONTAINER_NAME"
     else

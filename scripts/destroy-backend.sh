@@ -15,10 +15,10 @@ log_error() {
 }
 
 # delete the Resource Group
-if az.cmd group exists --name $RESOURCE_GROUP_NAME | grep -q true; then
+if az group exists --name $RESOURCE_GROUP_NAME | grep -q true; then
     log_info "Deleting the Resource Group: $RESOURCE_GROUP_NAME"
 
-    if az.cmd group delete --name $RESOURCE_GROUP_NAME -y > /dev/null; then
+    if az group delete --name $RESOURCE_GROUP_NAME -y > /dev/null; then
         log_success "Resource Group Deleted Successfully!"
     else
         log_error "Failed to delete Resource Group!"
