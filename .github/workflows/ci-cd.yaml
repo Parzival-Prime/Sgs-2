@@ -37,7 +37,7 @@ jobs:
       - build
     steps:
       - name: Checkout
-        uses: actions/checkout@v7.0.1
+        uses: actions/checkout@v7.0.1 
       
       - name: Azure login
         uses: azure/login@v2
@@ -53,6 +53,9 @@ jobs:
         run: |
           chmod +x scripts/create-backend.sh
           ./scripts/create-backend.sh
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4.0.1         
       
       - name: Terraform Initialization
         working-directory: terraform
@@ -79,11 +82,11 @@ jobs:
       - build
       - terraform
     steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: hashicorp/setup-terraform@v4.0.1
+      
       - name: Sleep
         run: sleep 2m
-      
-      - name: Checkout
-        uses: actions/checkout@v7.0.1
       
       - name: Azure login
         uses: azure/login@v2
