@@ -30,6 +30,9 @@ jobs:
   
   terraform:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     needs:
       - build
     steps:
@@ -42,6 +45,9 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      
+      - name: Verify Azure login
+        run: az account show
 
       - name: Create Terraform Backend
         run: |
@@ -66,12 +72,25 @@ jobs:
   
   cleanup:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     needs:
       - build
       - terraform
     steps:
       - name: Sleep
         run: sleep 2m
+      
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+      
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Destroy Terraform provisioned resources
         working-directory: terraform
