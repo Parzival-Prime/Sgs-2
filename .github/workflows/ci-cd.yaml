@@ -97,7 +97,7 @@ jobs:
       - uses: hashicorp/setup-terraform@v4.0.1
 
       - name: Sleep
-        run: sleep 2m
+        run: sleep 1m
       
       - name: Azure login
         uses: azure/login@v2
