@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  label:
+    app: backend
+    purpose: learning
+  annotations:
+    purpose: "Implementing a simple CI/CD pipeline to deploy a simple application"
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: go-backend
+          image: parzivalprime/sgs-2-go-backend@sha256:a9d530e27fe69d47bf6fe5b7d76ff14d2cedb53bdd33e2da6062de2c0b94c3e1
+          ports:
+            containerPort: 8000
+        

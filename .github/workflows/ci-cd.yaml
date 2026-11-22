@@ -72,6 +72,17 @@ jobs:
       - name: Terraform Apply
         working-directory: terraform
         run: terraform apply --auto-approve
+      
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group sgs-2-rg \
+            --name sgs-2-aks-cluster \
+            --overwrite-existing
+      
+      - name: Deploy app to AKS
+        run: |
+          kubectl apply -f k8s/
   
   cleanup:
     runs-on: ubuntu-latest
@@ -104,4 +115,4 @@ jobs:
         run: terraform destroy --auto-approve
 
       - name: Destroy Terraform Backend
-        run: ./scripts/destroy-backed.sh
+        run: ./scripts/destroy-backend.sh

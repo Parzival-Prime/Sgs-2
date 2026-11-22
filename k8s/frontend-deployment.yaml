@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: frontend
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+  template:
+    selector:
+      matchLabels:
+        app: frontend
+    spec:
+      metadata:
+        labels:
+          app: frontend
+      containers:
+        - name: next-app
+          image: parzivalprime/sgs-2-next-frontend@sha256:3cb11261859995143891eb60d920f62b0278eb1250ce19e84fd6024658aec74e
+          ports:
+            containerPort: 3000
