@@ -43,6 +43,11 @@ jobs:
         outputs: 
           image: ${{ steps.build-push-frontend.ouputs.image }}
           digest: ${{ steps.build-push-frontend.outputs.digest }}
+      
+      - name: Logging the digests
+        run: |
+          echo "Backend Image Digest: ${{ steps.build-push-backend.outputs.digest }}"
+          echo "Frontend Image Digest: ${{ steps.build-push-frontend.outputs.digest }}"
   
   terraform:
     runs-on: ubuntu-latest
