@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-deployment
-  label:
+  labels:
     app: backend
     purpose: learning
   annotations:
@@ -26,5 +26,5 @@ spec:
         - name: go-backend
           image: "{{ .Values.backendDeployment.image.repository }}@{{ .Values.backendDeployment.image.digest }}"
           ports:
-            containerPort: 8000
+            - containerPort: 8000
         

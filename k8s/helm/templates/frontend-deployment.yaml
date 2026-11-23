@@ -11,10 +11,10 @@ spec:
     rollingUpdate:
       maxSurge: 0
       maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: frontend
   template:
-    selector:
-      matchLabels:
-        app: frontend
     spec:
       metadata:
         labels:
@@ -23,4 +23,4 @@ spec:
         - name: next-app
           image: "{{ .Values.frontendDeployment.image.repository }}@{{ .Values.frontendDeployment.image.digest }}"
           ports:
-            containerPort: 3000
+            - containerPort: 3000
