@@ -20,7 +20,8 @@ jobs:
           registry: registry.hub.docker.com
           organization: ${{ secrets.DOCKER_USERNAME }}
           repository: "sgs-2-go-backend"
-          tags: ["v1"]
+          tags: |
+            "v1"
           login: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           platforms: linux/amd64,linux/arm64
@@ -35,7 +36,8 @@ jobs:
           registry: registry.hub.docker.com
           organization: ${{ secrets.DOCKER_USERNAME }}
           repository: "sgs-2-next-frontend"
-          tags: ["v1"]
+          tags: |
+            "v1"
           login: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           platforms: linux/amd64,linux/arm64
