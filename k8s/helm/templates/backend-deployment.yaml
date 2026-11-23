@@ -8,10 +8,10 @@ metadata:
   annotations:
     purpose: "Implementing a simple CI/CD pipeline to deploy a simple application"
 spec:
-  replicas: 2
+  replicas: {{ .Values.backendDeployment.replicas }}
   strategy:
     type: RollingUpdate
-    rollingUpdate:
+    rollingUpdate: 
       maxSurge: 0
       maxUnavailable: 1
   selector:
@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: go-backend
-          image: parzivalprime/sgs-2-go-backend@sha256:a9d530e27fe69d47bf6fe5b7d76ff14d2cedb53bdd33e2da6062de2c0b94c3e1
+          image: "{{ .Values.backendDeployment.image.repository }}@{{ .Values.backendDeployment.image.digest }}"
           ports:
             containerPort: 8000
         

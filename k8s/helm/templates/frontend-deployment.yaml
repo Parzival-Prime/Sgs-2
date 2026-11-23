@@ -5,7 +5,7 @@ metadata:
   labels:
     app: frontend
 spec:
-  replicas: 2
+  replicas: {{ .Values.frontendDeployment.replicas }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -21,6 +21,6 @@ spec:
           app: frontend
       containers:
         - name: next-app
-          image: parzivalprime/sgs-2-next-frontend@sha256:3cb11261859995143891eb60d920f62b0278eb1250ce19e84fd6024658aec74e
+          image: "{{ .Values.frontendDeployment.image.repository }}@{{ .Values.frontendDeployment.image.digest }}"
           ports:
             containerPort: 3000

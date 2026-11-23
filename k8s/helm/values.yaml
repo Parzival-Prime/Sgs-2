@@ -1,0 +1,14 @@
+backendDeployment:
+  replicas: 2
+  
+  image:
+    repository: parzivalprime/sgs-2-go-backend
+    digest: ""
+
+frontendDeployment:
+  replicas: 2
+  
+  image:
+    repository: parzivalprime/sgs-2-next-frontend
+    digest: ""
+
