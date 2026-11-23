@@ -24,9 +24,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           platforms: linux/amd64,linux/arm64
         
-        outputs: 
-          image: ${{ steps.build-push-backend.ouputs.image }}
-          digest: ${{ steps.build-push-backend.outputs.digest }}
 
       - name: Build and Push Frontend image
         id: build-push-frontend
@@ -40,15 +37,16 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           platforms: linux/amd64,linux/arm64
         
-        outputs: 
-          image: ${{ steps.build-push-frontend.ouputs.image }}
-          digest: ${{ steps.build-push-frontend.outputs.digest }}
       
       - name: Logging the digests
         run: |
           echo "Backend Image Digest: ${{ steps.build-push-backend.outputs.digest }}"
           echo "Frontend Image Digest: ${{ steps.build-push-frontend.outputs.digest }}"
   
+    outputs: 
+      frontendDigest: ${{ steps.build-push-frontend.outputs.digest }}
+      backendDigest: ${{ steps.build-push-backend.outputs.digest }}
+
   terraform:
     runs-on: ubuntu-latest
     permissions:
@@ -112,8 +110,8 @@ jobs:
       - name: Helm Upgrade
         run: |
           helm upgrade --install app-v1 ./k8s/helm \
-          --set backendDeployment.image.digest="${{ steps.build-push-backend.outputs.digest }}"
-          --set frontenddeployment.image.digest="${{ steps.build-push-frontend.outputs.digest }}"
+          --set backendDeployment.image.digest="${{ needs.build.outputs.backendDigest }}"
+          --set frontenddeployment.image.digest="${{ steps.build.outputs.frontendDigest }}"
   
   cleanup:
     runs-on: ubuntu-latest
