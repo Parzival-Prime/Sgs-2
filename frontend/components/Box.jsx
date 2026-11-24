@@ -6,7 +6,7 @@ export default function Box() {
     const [userName, setUserName] = useState("")
 
     async function handleSubmit() {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`,
+        const res = await fetch(`/api/users`,
             {
                 method: "POST",
                 headers: {
@@ -22,7 +22,7 @@ export default function Box() {
     }
 
     async function fetchUsers() {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`)
+        const res = await fetch(`/api/users`)
         const data = await res.json()
         console.log(data)
         setUsers(data)
