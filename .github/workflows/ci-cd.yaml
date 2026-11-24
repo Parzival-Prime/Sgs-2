@@ -115,8 +115,8 @@ jobs:
       - name: Helm Upgrade
         run: |
           helm upgrade --install app-v1 ./k8s/helm \
-          --set backendDeployment.image.digest="${{ needs.build.outputs.backendDigest }}"
-          --set frontenddeployment.image.digest="${{ steps.build.outputs.frontendDigest }}"
+          --set backendDeployment.image.digest="${{ needs.build.outputs.backendDigest }}" \
+          --set frontendDeployment.image.digest="${{ steps.build.outputs.frontendDigest }}"
   
   cleanup:
     runs-on: ubuntu-latest
