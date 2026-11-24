@@ -15,10 +15,10 @@ spec:
     matchLabels:
       app: frontend
   template:
+    metadata:
+      labels:
+        app: frontend
     spec:
-      metadata:
-        labels:
-          app: frontend
       containers:
         - name: next-app
           image: "{{ .Values.frontendDeployment.image.repository }}@{{ .Values.frontendDeployment.image.digest }}"
