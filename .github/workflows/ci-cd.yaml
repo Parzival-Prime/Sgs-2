@@ -146,7 +146,7 @@ jobs:
       contents: read
     needs:
       - build
-      - terraform
+      - terraform-and-aks
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: hashicorp/setup-terraform@v4.0.1
