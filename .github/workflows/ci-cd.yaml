@@ -149,4 +149,6 @@ jobs:
         run: terraform destroy --auto-approve
 
       - name: Destroy Terraform Backend
-        run: ./scripts/destroy-backend.sh
+        run: |
+          chmod +x scripts/destroy-backend.sh
+          ./scripts/destroy-backend.sh
