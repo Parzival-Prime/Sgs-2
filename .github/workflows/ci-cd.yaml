@@ -114,7 +114,7 @@ jobs:
 
       - name: Add NGINX Helm Repository
         run: |
-          helm repo add nginx-ingress https://kubernetes.github.io/ingress-nginx
+          helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
           helm repo update
 
       - name: Install Nginx Ingress
