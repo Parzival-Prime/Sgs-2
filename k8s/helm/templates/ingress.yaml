@@ -6,7 +6,7 @@ spec:
   ingressClassName: nginx
 
   rules:
-      http:
+      - http:
         paths:
           - path: /
             pathType: Prefix
